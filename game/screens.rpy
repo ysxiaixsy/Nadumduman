@@ -355,7 +355,23 @@ style navigation_button_text:
 
 screen unlocked_main_menu_background():
 
-    if persistent.church_unlocked and persistent.balintawak_unlocked and persistent.saad_unlocked:
+    if persistent.church_unlocked and persistent.balintawak_unlocked and persistent.saad_unlocked and persistent.bebot_unlocked:
+        add gui.main_menu_church_balintawak_saad_bebot_unlocked_background
+    elif persistent.church_unlocked and persistent.balintawak_unlocked and persistent.bebot_unlocked:
+        add gui.main_menu_church_balintawak_bebot_unlocked_background
+    elif persistent.church_unlocked and persistent.saad_unlocked and persistent.bebot_unlocked:
+        add gui.main_menu_church_saad_bebot_unlocked_background
+    elif persistent.balintawak_unlocked and persistent.saad_unlocked and persistent.bebot_unlocked:
+        add gui.main_menu_balintawak_saad_bebot_unlocked_background
+    elif persistent.church_unlocked and persistent.bebot_unlocked:
+        add gui.main_menu_church_bebot_unlocked_background
+    elif persistent.balintawak_unlocked and persistent.bebot_unlocked:
+        add gui.main_menu_balintawak_bebot_unlocked_background
+    elif persistent.saad_unlocked and persistent.bebot_unlocked:
+        add gui.main_menu_saad_bebot_unlocked_background
+    elif persistent.bebot_unlocked:
+        add gui.main_menu_bebot_unlocked_background
+    elif persistent.church_unlocked and persistent.balintawak_unlocked and persistent.saad_unlocked:
         add gui.main_menu_church_balintawak_saad_unlocked_background
     elif persistent.church_unlocked and persistent.balintawak_unlocked:
         add gui.main_menu_church_balintawak_unlocked_background
