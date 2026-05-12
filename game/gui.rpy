@@ -88,6 +88,7 @@ define gui.title_text_size = 75
 
 ## The images used for the main and game menus.
 define gui.main_menu_background = "home_menu.png"
+define gui.main_menu_church_unlocked_background = "home_menu_church_unlocked.png"
 define gui.game_menu_background = "gui/game_menu.png"
 
 
