@@ -83,4 +83,4 @@ label bebot_meal:
     $ persistent.bebot_unlocked = True
     $ renpy.save_persistent()
 
-    return
+    jump katunggan_eco_park
