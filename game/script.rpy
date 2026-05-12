@@ -4,6 +4,7 @@ define me = Character("Me", color="#2e2e2e")
 
 # variables
 default player_reason = ""  # reason for visiting leganes
+default persistent.church_unlocked = False
 
 transform sprite_fit:
     zoom 0.60
