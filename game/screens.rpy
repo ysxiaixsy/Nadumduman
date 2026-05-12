@@ -287,14 +287,15 @@ style quick_button_text:
 ## This screen is included in the main and game menus, and provides navigation
 ## to other menus, and to start the game.
 
-screen navigation():
+screen navigation(nav_xpos=80):
     vbox:
         style_prefix "navigation"
 
-        xpos 1400
-        yalign 0.5
+        xpos nav_xpos
+        yalign 0.6
 
         spacing 20
+
 
         if main_menu:
 
@@ -341,7 +342,7 @@ style navigation_button:
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
-    size 72
+    size 50 
     color "#7a4f00"
     hover_color "#c8a000"
 
@@ -365,7 +366,7 @@ screen main_menu():
 
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
-    use navigation
+    use navigation(nav_xpos=1500)
 
     if gui.show_name:
 
