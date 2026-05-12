@@ -108,4 +108,89 @@ label katunggan_good_ending:
     $ renpy.save_persistent()
 
     scene black with fade
+    call ending_credits
     return
+
+label ending_credits:
+    window hide
+    play music "music/Eva Eugenio - Maalaala Mo Kaya.mp3" fadein 2.0
+    call screen ending_credits_roll
+    stop music fadeout 2.0
+    return
+
+transform credits_scroll:
+    xalign 0.5
+    ypos 1.18
+    linear 32.0 ypos -1.35
+
+screen ending_credits_roll():
+    tag credits
+
+    add Solid("#000000")
+
+    vbox:
+        at credits_scroll
+        xalign 0.5
+        spacing 42
+
+        text "Nadumduman":
+            xalign 0.5
+            size 92
+            color "#f0c76a"
+
+        text "Good Ending":
+            xalign 0.5
+            size 48
+            color "#ffffff"
+
+        null height 80
+
+        text "Devs":
+            xalign 0.5
+            size 54
+            color "#f0c76a"
+        text "Dejel Cyrus De Asis":
+            xalign 0.5
+            size 42
+            color "#ffffff"
+        text "Joseph Patrick Salomeo":
+            xalign 0.5
+            size 42
+            color "#ffffff"
+
+        null height 50
+
+        text "Starring":
+            xalign 0.5
+            size 54
+            color "#f0c76a"
+        text "Frederick Renz Banas":
+            xalign 0.5
+            size 42
+            color "#ffffff"
+
+        null height 50
+
+        text "Side Characters":
+            xalign 0.5
+            size 54
+            color "#f0c76a"
+        text "Yuan Birondo":
+            xalign 0.5
+            size 42
+            color "#ffffff"
+        text "John Romyr Lopez":
+            xalign 0.5
+            size 42
+            color "#ffffff"
+
+        null height 100
+
+        text "Panumduma lng ko":
+            xalign 0.5
+            size 48
+            color "#f0c76a"
+
+        null height 300
+
+    timer 34.0 action Return()
