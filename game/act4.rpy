@@ -1,5 +1,5 @@
 label saad_park:
-    scene leganes_park with fade
+    scene saad_park_bg with fade
     "Saad Park."
     "The wide cemented grounds were busier up close."
     "Vendors lined the walkways, their tarps cutting bright patches across the heat."

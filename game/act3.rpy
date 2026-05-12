@@ -1,5 +1,5 @@
 label balintawak_statue:
-    scene leganes_park with fade
+    scene balintawak_statue_bg with fade
     "Near the church, we found ourselves passing through the plaza again."
     "My eyes wander and find themselves on a large statue."
     "The figure depicted raises their hand in a marvelous stance."

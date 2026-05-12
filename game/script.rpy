@@ -9,6 +9,9 @@ default persistent.church_unlocked = False
 default persistent.balintawak_unlocked = False
 default persistent.saad_unlocked = False
 
+image balintawak_statue_bg = "statue02_bg.png"
+image saad_park_bg = "saad_park2_bg.png"
+
 transform sprite_fit:
     zoom 0.60
     yanchor 1.0      # anchor to bottom of image
