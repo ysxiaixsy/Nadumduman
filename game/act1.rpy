@@ -22,7 +22,7 @@ label renz_checkup:
     show renz bashful
     renz "I think I just fainted from the heat a bit."
 
-    label renz_checkup_merge:
+label renz_checkup_merge:
     me "That's even more concerning!"
     show renz pout with dissolve
     renz "I said I'm fine!"
