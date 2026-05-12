@@ -355,22 +355,7 @@ style navigation_button_text:
 
 screen unlocked_main_menu_background():
 
-    if persistent.church_unlocked and persistent.balintawak_unlocked and persistent.saad_unlocked:
-        add gui.main_menu_church_balintawak_saad_unlocked_background
-    elif persistent.church_unlocked and persistent.balintawak_unlocked:
-        add gui.main_menu_church_balintawak_unlocked_background
-    elif persistent.church_unlocked and persistent.saad_unlocked:
-        add gui.main_menu_church_saad_unlocked_background
-    elif persistent.balintawak_unlocked and persistent.saad_unlocked:
-        add gui.main_menu_balintawak_saad_unlocked_background
-    elif persistent.church_unlocked:
-        add gui.main_menu_church_unlocked_background
-    elif persistent.balintawak_unlocked:
-        add gui.main_menu_balintawak_unlocked_background
-    elif persistent.saad_unlocked:
-        add gui.main_menu_saad_unlocked_background
-    else:
-        add gui.main_menu_background
+    add unlocked_main_menu_background_name()
 
 screen main_menu():
 

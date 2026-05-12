@@ -112,4 +112,4 @@ label saad_palapak_explanation:
     $ persistent.saad_unlocked = True
     $ renpy.save_persistent()
 
-    return
+    jump bebot_millas
