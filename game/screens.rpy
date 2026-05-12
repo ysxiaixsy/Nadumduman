@@ -353,15 +353,31 @@ style navigation_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
+screen unlocked_main_menu_background():
+
+    if persistent.church_unlocked and persistent.balintawak_unlocked and persistent.saad_unlocked:
+        add gui.main_menu_church_balintawak_saad_unlocked_background
+    elif persistent.church_unlocked and persistent.balintawak_unlocked:
+        add gui.main_menu_church_balintawak_unlocked_background
+    elif persistent.church_unlocked and persistent.saad_unlocked:
+        add gui.main_menu_church_saad_unlocked_background
+    elif persistent.balintawak_unlocked and persistent.saad_unlocked:
+        add gui.main_menu_balintawak_saad_unlocked_background
+    elif persistent.church_unlocked:
+        add gui.main_menu_church_unlocked_background
+    elif persistent.balintawak_unlocked:
+        add gui.main_menu_balintawak_unlocked_background
+    elif persistent.saad_unlocked:
+        add gui.main_menu_saad_unlocked_background
+    else:
+        add gui.main_menu_background
+
 screen main_menu():
 
     ## This ensures that any other menu screen is replaced.
     tag menu
 
-    if persistent.church_unlocked:
-        add gui.main_menu_church_unlocked_background
-    else:
-        add gui.main_menu_background
+    use unlocked_main_menu_background
 
     ## This empty frame darkens the main menu.
     frame:
@@ -425,10 +441,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     style_prefix "game_menu"
 
     if main_menu:
-        if persistent.church_unlocked:
-            add gui.main_menu_church_unlocked_background
-        else:
-            add gui.main_menu_background
+        use unlocked_main_menu_background
     else:
         add gui.game_menu_background
 
