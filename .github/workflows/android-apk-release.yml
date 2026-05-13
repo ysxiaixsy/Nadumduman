@@ -69,7 +69,10 @@ jobs:
           set -euo pipefail
 
           python -m pip install --upgrade requests
-          RAPT_NO_TERMS=1 python "${RENPY_DIR}/rapt/android.py" installsdk
+          (
+            cd "${RENPY_DIR}/rapt"
+            RAPT_NO_TERMS=1 python android.py installsdk
+          )
 
       - name: Restore Android signing keys
         shell: bash

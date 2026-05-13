@@ -10,7 +10,7 @@ import homeMenu from './assets/home_menu.png'
 
 const windowsDownload = '/downloads/nadumduman-windows.zip'
 const androidDownload =
-  'https://github.com/ysxiaixsy/Nadumduman/releases/latest/download/nadumduman-android.apk'
+  'https://github.com/dejely/Nadumduman/releases/latest/download/nadumduman-android.apk'
 
 const navLinks = [
   ['Home', '#home'],
