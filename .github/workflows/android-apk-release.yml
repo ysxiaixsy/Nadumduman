@@ -1,0 +1,165 @@
+name: Android APK Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  RENPY_VERSION: "8.5.2"
+  RENPY_DIR: ${{ github.workspace }}/renpy-sdk
+  DIST_DIR: ${{ github.workspace }}/dists/android
+  ANDROID_NDK_HOME: ""
+  ANDROID_NDK_ROOT: ""
+
+jobs:
+  build-apk:
+    name: Build APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cache Ren'Py SDK
+        id: cache-renpy
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.RENPY_DIR }}
+          key: ${{ runner.os }}-renpy-${{ env.RENPY_VERSION }}-android-v2
+
+      - name: Install Ren'Py SDK and RAPT
+        if: steps.cache-renpy.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          curl -fsSLo renpy-sdk.tar.bz2 "https://www.renpy.org/dl/${RENPY_VERSION}/renpy-${RENPY_VERSION}-sdk.tar.bz2"
+          mkdir -p "${RENPY_DIR}"
+          tar -xjf renpy-sdk.tar.bz2 -C "${RENPY_DIR}" --strip-components=1
+
+          curl -fsSLo renpy-rapt.zip "https://www.renpy.org/dl/${RENPY_VERSION}/renpy-${RENPY_VERSION}-rapt.zip"
+          unzip -q renpy-rapt.zip -d "${RENPY_DIR}"
+
+          chmod +x "${RENPY_DIR}/renpy.sh"
+
+      - name: Configure Android SDK for Ren'Py
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          yes | sdkmanager --licenses >/dev/null || true
+          printf '%s\n' "${ANDROID_HOME}" > "${RENPY_DIR}/rapt/sdk.txt"
+
+      - name: Restore Android signing keys
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          BUNDLE_KEYSTORE_BASE64: ${{ secrets.BUNDLE_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+
+          decode_secret_file() {
+            local secret_value="$1"
+            local output_file="$2"
+            local secret_name="$3"
+
+            if ! printf '%s' "${secret_value}" | tr -d '[:space:]' | base64 --decode > "${output_file}"; then
+              echo "::error::${secret_name} is not valid base64. Recreate it with: base64 -w 0 ${output_file}"
+              rm -f "${output_file}"
+              exit 1
+            fi
+          }
+
+          if [[ -n "${ANDROID_KEYSTORE_BASE64}" ]]; then
+            decode_secret_file "${ANDROID_KEYSTORE_BASE64}" android.keystore ANDROID_KEYSTORE_BASE64
+          elif [[ -f android.keystore ]]; then
+            echo "Using android.keystore from the repository."
+          else
+            echo "::error::Missing android.keystore. Add an ANDROID_KEYSTORE_BASE64 GitHub secret."
+            exit 1
+          fi
+
+          if [[ -n "${BUNDLE_KEYSTORE_BASE64}" ]]; then
+            decode_secret_file "${BUNDLE_KEYSTORE_BASE64}" bundle.keystore BUNDLE_KEYSTORE_BASE64
+          elif [[ -f bundle.keystore ]]; then
+            echo "Using bundle.keystore from the repository."
+          else
+            cp android.keystore bundle.keystore
+          fi
+
+      - name: Lint Ren'Py project
+        shell: bash
+        run: |
+          set -euo pipefail
+          "${RENPY_DIR}/renpy.sh" "${GITHUB_WORKSPACE}" lint
+
+      - name: Build Android APK
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p "${DIST_DIR}"
+          (
+            cd "${RENPY_DIR}"
+            ./renpy.sh launcher android_build "${GITHUB_WORKSPACE}" --destination "${DIST_DIR}"
+          )
+
+          mapfile -t apks < <(find "${DIST_DIR}" -type f -name "*.apk" | sort)
+          if (( ${#apks[@]} == 0 )); then
+            echo "::error::Ren'Py did not create an APK in ${DIST_DIR}."
+            exit 1
+          fi
+
+          cp "${apks[0]}" "${DIST_DIR}/nadumduman-android.apk"
+
+          (
+            cd "${DIST_DIR}"
+            sha256sum nadumduman-android.apk > SHA256SUMS.txt
+          )
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nadumduman-android-apk-${{ github.run_number }}
+          path: |
+            ${{ env.DIST_DIR }}/nadumduman-android.apk
+            ${{ env.DIST_DIR }}/SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          shopt -s globstar nullglob
+
+          files=("${DIST_DIR}/nadumduman-android.apk" "${DIST_DIR}/SHA256SUMS.txt")
+
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release upload "${GITHUB_REF_NAME}" "${files[@]}" --clobber
+          else
+            gh release create "${GITHUB_REF_NAME}" "${files[@]}" --title "${GITHUB_REF_NAME}" --generate-notes
+          fi
