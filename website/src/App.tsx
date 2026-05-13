@@ -8,7 +8,7 @@ import bebot from './assets/bebot_millas.png'
 import katunggan from './assets/katunggan.png'
 import homeMenu from './assets/home_menu.png'
 
-const windowsDownload = '/downloads/nadumduman-windows.zip'
+const windowsDownload = 'https://ysxiaixsy.github.io/Nadumduman-1.0-web/'
 const androidDownload =
   'https://github.com/dejely/Nadumduman/releases/latest/download/nadumduman-android.apk'
 
