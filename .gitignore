@@ -34,3 +34,6 @@ android/
 rapt/
 dists/
 build/
+*.keystore
+*.jks
+*.p12

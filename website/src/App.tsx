@@ -9,7 +9,8 @@ import katunggan from './assets/katunggan.png'
 import homeMenu from './assets/home_menu.png'
 
 const windowsDownload = '/downloads/nadumduman-windows.zip'
-const androidDownload = '/downloads/nadumduman-android.apk'
+const androidDownload =
+  'https://github.com/ysxiaixsy/Nadumduman/releases/latest/download/nadumduman-android.apk'
 
 const navLinks = [
   ['Home', '#home'],
