@@ -79,8 +79,20 @@ jobs:
         run: |
           set -euo pipefail
 
+          decode_secret_file() {
+            local secret_value="$1"
+            local output_file="$2"
+            local secret_name="$3"
+
+            if ! printf '%s' "${secret_value}" | tr -d '[:space:]' | base64 --decode > "${output_file}"; then
+              echo "::error::${secret_name} is not valid base64. Recreate it with: base64 -w 0 ${output_file}"
+              rm -f "${output_file}"
+              exit 1
+            fi
+          }
+
           if [[ -n "${ANDROID_KEYSTORE_BASE64}" ]]; then
-            printf '%s' "${ANDROID_KEYSTORE_BASE64}" | base64 --decode > android.keystore
+            decode_secret_file "${ANDROID_KEYSTORE_BASE64}" android.keystore ANDROID_KEYSTORE_BASE64
           elif [[ -f android.keystore ]]; then
             echo "Using android.keystore from the repository."
           else
@@ -89,7 +101,7 @@ jobs:
           fi
 
           if [[ -n "${BUNDLE_KEYSTORE_BASE64}" ]]; then
-            printf '%s' "${BUNDLE_KEYSTORE_BASE64}" | base64 --decode > bundle.keystore
+            decode_secret_file "${BUNDLE_KEYSTORE_BASE64}" bundle.keystore BUNDLE_KEYSTORE_BASE64
           elif [[ -f bundle.keystore ]]; then
             echo "Using bundle.keystore from the repository."
           else
@@ -108,7 +120,10 @@ jobs:
           set -euo pipefail
 
           mkdir -p "${DIST_DIR}"
-          "${RENPY_DIR}/renpy.sh" launcher android_build "${GITHUB_WORKSPACE}" --destination "${DIST_DIR}"
+          (
+            cd "${RENPY_DIR}"
+            ./renpy.sh launcher android_build "${GITHUB_WORKSPACE}" --destination "${DIST_DIR}"
+          )
 
           mapfile -t apks < <(find "${DIST_DIR}" -type f -name "*.apk" | sort)
           if (( ${#apks[@]} == 0 )); then
