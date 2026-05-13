@@ -36,17 +36,15 @@ jobs:
           distribution: temurin
           java-version: "21"
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Cache Ren'Py SDK and Android tools
+      - name: Cache Ren'Py SDK
         id: cache-renpy
         uses: actions/cache@v4
         with:
           path: ${{ env.RENPY_DIR }}
-          key: ${{ runner.os }}-renpy-${{ env.RENPY_VERSION }}-android-v1
+          key: ${{ runner.os }}-renpy-${{ env.RENPY_VERSION }}-android-v2
 
       - name: Install Ren'Py SDK and RAPT
         if: steps.cache-renpy.outputs.cache-hit != 'true'
@@ -63,17 +61,15 @@ jobs:
 
           chmod +x "${RENPY_DIR}/renpy.sh"
 
-      - name: Install Android packaging SDK
+      - name: Configure Android SDK for Ren'Py
         shell: bash
         run: |
           set -euo pipefail
 
-          python -m pip install --upgrade requests
-          (
-            cd "${RENPY_DIR}/rapt"
-            PYTHONPATH="${RENPY_DIR}:${RENPY_DIR}/rapt/buildlib${PYTHONPATH:+:${PYTHONPATH}}" \
-              RAPT_NO_TERMS=1 python android.py installsdk
-          )
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          yes | sdkmanager --licenses >/dev/null || true
+          printf '%s\n' "${ANDROID_HOME}" > "${RENPY_DIR}/rapt/sdk.txt"
 
       - name: Restore Android signing keys
         shell: bash
