@@ -1,5 +1,5 @@
 label balintawak_statue:
-    scene balintawak_statue_bg with fade
+    scene balintawak_statue with fade
     "Near the church, we found ourselves passing through the plaza again."
     "My eyes wander and find themselves on a large statue."
     "The figure depicted raises their hand in a marvelous stance."
@@ -64,7 +64,7 @@ label balintawak_explanation:
     renz "I really love this monument."
     renz "It honors our history and the Katipuneros that fought for our independence."
 
-    "RUMMBBBLEEEE"
+    "*RUMMBBBLEEEE*"
 
     show renz_shocked as renz
     renz "Looks like you're hungry!"

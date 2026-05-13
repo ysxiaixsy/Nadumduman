@@ -1,12 +1,14 @@
-label bebot_millas:
-    scene bebot_millas_bg with fade
-    "Bebot and Milla's."
-    "The sign outside says Bebot and Milla's Talabahan."
+label bebot_milas:
+    "Bebot and Mila's."
+    "The sign outside says Bebot and Mila's Talabahan."
+
+    scene inside_bebot with fade
+
     "The place's structure is unique, like a kubo with part of the place being on the beach."
     "The air is salty, smoky, and warm from the kitchen."
 
     show renz_wide_smile at sprite_fit as renz with dissolve
-    renz "This is Bebot and Milla's!"
+    renz "This is Bebot and Mila's!"
     renz "They have great talaba here!"
     show renz_questioning as renz
     renz "Before I order for us, what's your favorite seafood?"

@@ -1,5 +1,5 @@
 label katunggan_eco_park:
-    scene katunggan_bg with fade
+    scene katunggan with fade
     "Katunggan Eco Park."
     "Leganes Integrated Katunggan Eco Park, also known as LIKE."
     "The mangroves creep from the muddy waters and form pretty foliage as a result."
@@ -25,7 +25,7 @@ label katunggan_eco_park:
     "My legs start to tire, so we find a spot where we can sit down and stare at the sea."
 
 label katunggan_good_ending:
-    scene katunggan_final_view with fade
+    scene katunggan_final with fade
     "Renz and I stare into the lush and vibrant greenery of the mangrove forest and wetlands."
     "The golden shine of the afternoon rays make the whole scenery glow brighter than it would've."
     me "I've seen this place before."
@@ -76,12 +76,12 @@ label katunggan_good_ending:
     renz "I feel so light headed."
     show renz_shocked as renz
     renz "Hey... wait up!"
-    "THUMP"
+    "*THUMP*"
 
     scene black with fade
     pause 1.0
 
-    scene katunggan_final_view with fade
+    scene katunggan_final with fade
     show renz_melancholy at sprite_fit as renz with dissolve
     me "Renren- I..."
     renz "I know."
@@ -102,7 +102,7 @@ label katunggan_good_ending:
             me "Okay. I promise."
 
     show renz_smile as renz
-    renz "... Panumduma lng ko."
+    renz "... Panumduma lang ako."
 
     $ persistent.katunggan_unlocked = True
     $ renpy.save_persistent()
@@ -121,7 +121,7 @@ label ending_credits:
 transform credits_scroll:
     xalign 0.5
     ypos 1.18
-    linear 32.0 ypos -1.35
+    linear 40.0 ypos -1.8
 
 screen ending_credits_roll():
     tag credits
@@ -145,21 +145,6 @@ screen ending_credits_roll():
 
         null height 80
 
-        text "Devs":
-            xalign 0.5
-            size 54
-            color "#f0c76a"
-        text "Dejel Cyrus De Asis":
-            xalign 0.5
-            size 42
-            color "#ffffff"
-        text "Joseph Patrick Salomeo":
-            xalign 0.5
-            size 42
-            color "#ffffff"
-
-        null height 50
-
         text "Starring":
             xalign 0.5
             size 54
@@ -171,7 +156,7 @@ screen ending_credits_roll():
 
         null height 50
 
-        text "Side Characters":
+        text "Writer & Director":
             xalign 0.5
             size 54
             color "#f0c76a"
@@ -179,18 +164,49 @@ screen ending_credits_roll():
             xalign 0.5
             size 42
             color "#ffffff"
+
+        null height 50
+
+        text "Devs":
+            xalign 0.5
+            size 54
+            color "#f0c76a"
+        text "Dejel Cyrus De Asis":
+            xalign 0.5
+            size 42
+            color "#ffffff"
         text "John Romyr Lopez":
             xalign 0.5
             size 42
             color "#ffffff"
+        text "JP Salomeo":
+            xalign 0.5
+            size 42
+            color "#ffffff"
+
+        null height 50
+
+        text "Design & Assets":
+            xalign 0.5
+            size 54
+            color "#f0c76a"
+        text "JP Salomeo":
+            xalign 0.5
+            size 42
+            color "#ffffff"    
 
         null height 100
 
-        text "Panumduma lng ko":
+        text "Special Thanks To":
             xalign 0.5
-            size 48
-            color "#f0c76a"
+            size 54
+            color "#f0c76a" 
 
-        null height 300
+        text "Everyone who made Nadumduman possible!":
+            xalign 0.5
+            size 42
+            color "#ffffff"
 
-    timer 34.0 action Return()
+        null height 1000
+
+    timer 44.0 action Return()

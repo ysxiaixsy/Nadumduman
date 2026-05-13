@@ -1,5 +1,5 @@
 label visit_church:
-    scene outside_church with fade
+    scene inside_church with fade
     "Leganes Church."
     "The current Kura Paroko of the church is Father Tababa."
     "His words fill the room as the devotees listen intently."
@@ -41,6 +41,7 @@ label church_candles:
     show renz_smile as renz
     renz "Great! Come with me, let's light some candles."
 
+    show renz_smile as renz
     "We both went to a nearby vendor."
     "He picked out two red candles, one for him and one for me."
     "Then we lit the candles and put our hands together for a prayer."

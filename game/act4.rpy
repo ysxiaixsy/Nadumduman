@@ -1,5 +1,5 @@
 label saad_park:
-    scene saad_park_bg with fade
+    scene saad_park with fade
     "Saad Park."
     "The wide cemented grounds were busier up close."
     "Vendors lined the walkways, their tarps cutting bright patches across the heat."
@@ -107,9 +107,10 @@ label saad_palapak_explanation:
     show renz_wide_smile as renz
     renz "I know where we can eat!"
 
+    scene outside_bebot with fade
     "After a tricycle ride to the coastal road, we arrive at a building full of a fishy smell."
 
     $ persistent.saad_unlocked = True
     $ renpy.save_persistent()
 
-    jump bebot_millas
+    jump bebot_milas
