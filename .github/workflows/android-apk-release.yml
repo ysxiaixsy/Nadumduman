@@ -71,7 +71,8 @@ jobs:
           python -m pip install --upgrade requests
           (
             cd "${RENPY_DIR}/rapt"
-            RAPT_NO_TERMS=1 python android.py installsdk
+            PYTHONPATH="${RENPY_DIR}:${RENPY_DIR}/rapt/buildlib${PYTHONPATH:+:${PYTHONPATH}}" \
+              RAPT_NO_TERMS=1 python android.py installsdk
           )
 
       - name: Restore Android signing keys
