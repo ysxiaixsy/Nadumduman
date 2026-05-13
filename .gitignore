@@ -27,3 +27,10 @@
 
 .vscode/
 .claude/
+*.apk
+*.aab
+*.rpyc
+android/
+rapt/
+dists/
+build/
